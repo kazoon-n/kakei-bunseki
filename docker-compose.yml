@@ -1,0 +1,18 @@
+version: "3"
+volumes:
+   pgdata:
+     driver: "local"
+services:
+  my-db:
+    build: .
+    container_name: "kakei-db"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "dev"
+      POSTGRES_PASSWORD: "kakei-dev"
+    command: 'postgres -c config_file="/etc/postgresql.conf"'
+    volumes:
+      - "pgdata:/var/lib/postgresql/data"
+      - "./conf/postgresql.conf:/etc/postgresql.conf"
+      - "./sql:/docker-entrypoint-initdb.d"
